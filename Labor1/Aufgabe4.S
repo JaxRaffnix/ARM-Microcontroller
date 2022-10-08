@@ -38,4 +38,3 @@ stop:			// label, end of commands
 	b stop		// infinite loop, make sure nothing weird happens at the end.
 
 .end			// End of File
-
