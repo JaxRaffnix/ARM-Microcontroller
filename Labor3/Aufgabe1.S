@@ -22,8 +22,8 @@ mystart:				// label, begin of commands. End with 'stop:'
 //.equ Numvals, 5
 
 /*__________________________________________________________________________
-* Third Task
-* get sum of two values from memory
+* First Task
+* add delay to code from labor 2 task 3
 */
 
 	mov r4, #5				// set counter to 5
@@ -35,7 +35,7 @@ counter_not_zero:
 	cmp r5, #0				// set flag high if counter == 0
 	beq counter_is_zero	// jump to label if last flag is high
 
-	ldr r6, [r5], #4		// read value from address r5, write to r6, add 4 to address in r5
+	ldr r6, [r5], #4		// read value from address in r5, write to r6, add 4 to address in r5
 
 // note:
 // +4 equals adding 4 bytes to current pointer.
@@ -44,8 +44,29 @@ counter_not_zero:
 	adds r7, r7, r6			// add r6 to r7
 	addcs r8, r8, #1		// add 1 to r8 if overflow occurs
 
-	subs r4, #1
+	bl delay				// go to subroutine
+
+	subs r4, #1				// reduce counter by 1
 	bne counter_not_zero	// jump to label unless r4 is zero
+
+//__________________________________________________________________________
+// Subroutine Delay
+
+delay:
+
+	stmfd sp!, {r7, lr}			// save register in stack
+
+	mov r7, #500				// set r9 to 500
+
+still_counting:
+
+	subs r7, #1				// decrement r9 by 1
+
+	bne still_counting		// go back and decrement again until r9 == 0
+
+	ldmfd sp!, {r7, pc}		// load value r9
+
+	bx lr					// return from subroutine
 
 //__________________________________________________________________________
 // End

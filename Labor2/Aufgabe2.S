@@ -22,29 +22,29 @@ mystart:				// label, begin of commands. End with 'stop:'
 */
 
 	mov r0, #5			// first int
-	mov r1, #10		// second int
+	mov r1, #0			// second int
 
-//	mov r2, #0			// set higher int result
-//	mov r3, #0			// set lower int result
+	ldr r2, =0
+	ldr r3, =0
 
-//	mov r4, #0			// set high=0
-//	mov r5, #0			// set low=0
+// also in this code
+// r2, r3, r4, r5
 
 second_int_positive:	// label. go here if r1=/=0
 
-	cmp r1, #0			// set flag high if r1==0
+	cmp r1, #0			// set flag high if second_int ==0
+	beq second_int_zero	// jump to label if second_int ==0
 
-	beq second_int_zero	// jumo to label if r1==0
+	adds r5, r0		// add first int to r5
+	addcs r4, #1	// add 1 to r4 if overflow happens in r5 + first_int
 
-	adds r5, r5, r0		// add first int to low
+	sub r1, #1		//	subtract 1 from second int
 
-	addcs r4, r4, #1	// add 1 to high if overflow happens in low+first_int
-
-	sub r1, r1, #1		//	subtract 1 ffrom second int
-
-	bne second_int_positive	// jump  to label unless equal flag is high
+	bne second_int_positive	// jump to label unless equal flag is high
 
 second_int_zero:
+
+// Check for r1 =/= at the end of the loop is not possible, because user input could for r1 could be 0 which would lead to an ininfte loop.
 
 //__________________________________________________________________________
 // End
